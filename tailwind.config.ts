@@ -61,6 +61,23 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				learning: {
+					success: 'hsl(var(--learning-success))',
+					'success-foreground': 'hsl(var(--learning-success-foreground))',
+					warning: 'hsl(var(--learning-warning))',
+					'warning-foreground': 'hsl(var(--learning-warning-foreground))',
+					error: 'hsl(var(--learning-error))',
+					'error-foreground': 'hsl(var(--learning-error-foreground))',
+					info: 'hsl(var(--learning-info))',
+					'info-foreground': 'hsl(var(--learning-info-foreground))',
+					neutral: 'hsl(var(--learning-neutral))',
+					'neutral-foreground': 'hsl(var(--learning-neutral-foreground))'
+				},
+				interactive: {
+					hover: 'hsl(var(--interactive-hover))',
+					active: 'hsl(var(--interactive-active))',
+					selected: 'hsl(var(--interactive-selected))'
 				}
 			},
 			borderRadius: {

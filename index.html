@@ -5,9 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Password Strength Check - In-House Learning</title>
     <style>
-        /* =================================================================
-           CONFIG & CSS VARIABLES
-        ================================================================= */
         :root {
             --color-dark-neutral: #1C2C4C;
             --color-primary: #1A6EF6;
@@ -20,14 +17,7 @@
             --font-family: -apple-system, BlinkMacSystemFont, "Noto Sans", Roboto, Inter, Arial, sans-serif;
         }
 
-        /* =================================================================
-           RESET & BASE STYLES
-        ================================================================= */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
             font-family: var(--font-family);
@@ -41,9 +31,6 @@
             justify-content: center;
         }
 
-        /* =================================================================
-           CARD LAYOUT
-        ================================================================= */
         .widget-card {
             background: var(--color-background);
             border-radius: 12px;
@@ -61,32 +48,16 @@
             margin-bottom: 24px;
         }
 
-        .logo {
-            max-height: 32px;
-            width: auto;
-        }
+        .logo { max-height: 32px; width: auto; }
+        .widget-title { font-size: 20px; font-weight: 600; color: var(--color-dark-neutral); }
 
-        .widget-title {
-            font-size: 20px;
-            font-weight: 600;
-            color: var(--color-dark-neutral);
-        }
-
-        /* =================================================================
-           FORM STYLES
-        ================================================================= */
-        .form-group {
-            margin-bottom: 20px;
-        }
-
+        .form-group { margin-bottom: 20px; }
         .form-label {
             display: block;
             font-size: 14px;
             font-weight: 500;
-            color: var(--color-dark-neutral);
             margin-bottom: 6px;
         }
-
         .form-input {
             width: 100%;
             padding: 12px 16px;
@@ -94,23 +65,17 @@
             border-radius: 8px;
             font-size: 16px;
             transition: border-color 0.2s ease;
-            background: var(--color-background);
         }
-
         .form-input:focus {
             outline: none;
             border-color: var(--color-primary);
             box-shadow: 0 0 0 3px rgba(26, 110, 246, 0.1);
         }
 
-        .password-wrapper {
-            position: relative;
-        }
-
+        .password-wrapper { position: relative; }
         .password-toggle {
             position: absolute;
-            right: 12px;
-            top: 50%;
+            right: 12px; top: 50%;
             transform: translateY(-50%);
             background: none;
             border: none;
@@ -121,278 +86,84 @@
             padding: 4px;
         }
 
-        .password-toggle:focus {
-            outline: 2px solid var(--color-primary);
-            outline-offset: 2px;
-            border-radius: 4px;
-        }
-
-        /* =================================================================
-           BUTTONS
-        ================================================================= */
         .btn {
             padding: 12px 20px;
             border-radius: 8px;
             font-size: 14px;
             font-weight: 500;
             cursor: pointer;
-            transition: all 0.2s ease;
             border: none;
             font-family: var(--font-family);
         }
+        .btn-primary { background: var(--color-cta); color: white; }
+        .btn-secondary { background: var(--color-background-soft); border: 1px solid var(--color-border); }
 
-        .btn-primary {
-            background-color: var(--color-cta);
-            color: white;
-        }
+        .button-group { display: flex; gap: 8px; margin-top: 16px; }
 
-        .btn-primary:hover {
-            background-color: #e55a4c;
-        }
-
-        .btn-primary:focus {
-            outline: 2px solid var(--color-primary);
-            outline-offset: 2px;
-        }
-
-        .btn-secondary {
-            background-color: var(--color-background-soft);
-            color: var(--color-dark-neutral);
-            border: 1px solid var(--color-border);
-        }
-
-        .btn-secondary:hover {
-            background-color: #edf1f7;
-        }
-
-        .btn-secondary:focus {
-            outline: 2px solid var(--color-primary);
-            outline-offset: 2px;
-        }
-
-        .button-group {
-            display: flex;
-            gap: 8px;
-            margin-top: 16px;
-        }
-
-        /* =================================================================
-           STRENGTH METER
-        ================================================================= */
-        .strength-meter {
-            margin: 20px 0;
-        }
-
-        .strength-label {
-            font-size: 14px;
-            font-weight: 500;
-            margin-bottom: 8px;
-        }
-
+        .strength-meter { margin: 20px 0; }
+        .strength-label { font-size: 14px; font-weight: 500; margin-bottom: 8px; }
         .strength-bar {
-            width: 100%;
-            height: 8px;
-            background-color: var(--color-border);
-            border-radius: 4px;
-            overflow: hidden;
+            width: 100%; height: 8px; background: var(--color-border);
+            border-radius: 4px; overflow: hidden;
         }
+        .strength-fill { height: 100%; transition: width .3s ease, background-color .3s ease; }
 
-        .strength-fill {
-            height: 100%;
-            transition: width 0.3s ease, background-color 0.3s ease;
-            border-radius: 4px;
-        }
+        .strength-weak { background: var(--color-cta); }
+        .strength-fair { background: var(--color-warning); }
+        .strength-good { background: var(--color-primary); }
+        .strength-strong { background: var(--color-success); }
 
-        .strength-weak { background-color: var(--color-cta); }
-        .strength-fair { background-color: var(--color-warning); }
-        .strength-good { background-color: var(--color-primary); }
-        .strength-strong { background-color: var(--color-success); }
-
-        /* =================================================================
-           CHECKLIST
-        ================================================================= */
         .requirements-list {
             background: var(--color-background-soft);
             border-radius: 8px;
-            padding: 16px;
-            margin: 20px 0;
+            padding: 16px; margin: 20px 0;
         }
-
-        .requirements-title {
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 12px;
-            color: var(--color-dark-neutral);
-        }
-
-        .requirement-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 8px;
-            font-size: 14px;
-        }
-
-        .requirement-item:last-child {
-            margin-bottom: 0;
-        }
-
+        .requirement-item { display: flex; align-items: center; gap: 8px; font-size: 14px; margin-bottom: 8px; }
         .requirement-check {
-            width: 16px;
-            height: 16px;
+            width: 16px; height: 16px;
             border: 2px solid var(--color-border);
-            border-radius: 3px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            border-radius: 3px; display: flex; align-items: center; justify-content: center;
             font-size: 10px;
-            transition: all 0.2s ease;
         }
+        .requirement-check.met { background: var(--color-success); border-color: var(--color-success); color: white; }
 
-        .requirement-check.met {
-            background-color: var(--color-success);
-            border-color: var(--color-success);
-            color: white;
-        }
-
-        /* =================================================================
-           SUCCESS STATE
-        ================================================================= */
         .success-message {
-            background: linear-gradient(135deg, rgba(28, 158, 111, 0.1), rgba(28, 158, 111, 0.05));
+            background: rgba(28, 158, 111, 0.05);
             border: 1px solid rgba(28, 158, 111, 0.2);
             border-radius: 8px;
-            padding: 16px;
-            margin: 20px 0;
-            display: none;
-            align-items: center;
-            gap: 12px;
+            padding: 16px; margin: 20px 0;
+            display: none; align-items: center; gap: 12px;
         }
+        .success-message.show { display: flex; }
+        .success-text { color: var(--color-success); font-weight: 500; }
 
-        .success-message.show {
-            display: flex;
-        }
-
-        .success-icon {
-            color: var(--color-success);
-            font-size: 20px;
-        }
-
-        .success-text {
-            color: var(--color-success);
-            font-weight: 500;
-        }
-
-        /* =================================================================
-           TIPS SECTION
-        ================================================================= */
         .tips-section {
             background: rgba(26, 110, 246, 0.05);
             border-radius: 8px;
-            padding: 16px;
-            margin: 20px 0;
+            padding: 16px; margin: 20px 0;
         }
 
-        .tips-title {
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: var(--color-primary);
-        }
+        .expandable { margin-top: 20px; border-top: 1px solid var(--color-border); padding-top: 20px; }
+        .expandable-trigger { background: none; border: none; color: var(--color-primary); cursor: pointer; }
+        .expandable-content { display: none; margin-top: 12px; }
+        .expandable-content.show { display: block; }
 
-        .tip-text {
-            font-size: 14px;
-            color: var(--color-dark-neutral);
-        }
-
-        /* =================================================================
-           EXPANDABLE SECTION
-        ================================================================= */
-        .expandable {
-            margin-top: 20px;
-            border-top: 1px solid var(--color-border);
-            padding-top: 20px;
-        }
-
-        .expandable-trigger {
-            background: none;
-            border: none;
-            color: var(--color-primary);
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-
-        .expandable-trigger:focus {
-            outline: 2px solid var(--color-primary);
-            outline-offset: 2px;
-            border-radius: 4px;
-        }
-
-        .expandable-content {
-            display: none;
-            margin-top: 12px;
-        }
-
-        .expandable-content.show {
-            display: block;
-        }
-
-        .expandable-content p {
-            font-size: 14px;
-            margin-bottom: 8px;
-        }
-
-        /* =================================================================
-           TOAST
-        ================================================================= */
         .toast {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: var(--color-dark-neutral);
-            color: white;
-            padding: 12px 20px;
-            border-radius: 8px;
-            font-size: 14px;
-            transform: translateY(100px);
-            opacity: 0;
-            transition: all 0.3s ease;
-            z-index: 1000;
+            position: fixed; bottom: 20px; right: 20px;
+            background: var(--color-dark-neutral); color: white;
+            padding: 12px 20px; border-radius: 8px;
+            font-size: 14px; opacity: 0; transform: translateY(100px);
+            transition: all .3s ease;
         }
-
-        .toast.show {
-            transform: translateY(0);
-            opacity: 1;
-        }
-
-        /* =================================================================
-           RESPONSIVE
-        ================================================================= */
-        @media (max-width: 480px) {
-            .widget-card {
-                padding: 24px;
-                margin: 10px;
-            }
-            
-            .button-group {
-                flex-direction: column;
-            }
-            
-            .btn {
-                width: 100%;
-            }
-        }
+        .toast.show { opacity: 1; transform: translateY(0); }
     </style>
 </head>
 <body>
     <div class="widget-card">
         <!-- Header -->
         <div class="widget-header">
-            <img id="logo" class="logo" alt="In-House Learning" />
+            <!-- Replace ihl-logo.png with your actual uploaded logo file -->
+            <img src="ihl-logo.png" class="logo" alt="In-House Learning Logo" />
             <h1 class="widget-title">Password Strength Check</h1>
         </div>
 
@@ -402,12 +173,10 @@
                 <label for="name" class="form-label">Name (optional)</label>
                 <input type="text" id="name" class="form-input" placeholder="Your name">
             </div>
-
             <div class="form-group">
                 <label for="email" class="form-label">Email (optional)</label>
                 <input type="email" id="email" class="form-input" placeholder="your.email@example.com">
             </div>
-
             <div class="form-group">
                 <label for="password" class="form-label">Password</label>
                 <div class="password-wrapper">
@@ -415,9 +184,8 @@
                     <button type="button" id="togglePassword" class="password-toggle">Show</button>
                 </div>
             </div>
-
             <div class="button-group">
-                <button type="button" id="generateBtn" class="btn btn-primary" title="Creates a high-entropy password you can copy">Generate Strong Password</button>
+                <button type="button" id="generateBtn" class="btn btn-primary">Generate Strong Password</button>
                 <button type="button" id="copyBtn" class="btn btn-secondary">Copy</button>
             </div>
         </form>
@@ -425,50 +193,21 @@
         <!-- Strength Meter -->
         <div class="strength-meter">
             <div class="strength-label" id="strengthLabel">Enter a password to check its strength</div>
-            <div class="strength-bar">
-                <div class="strength-fill" id="strengthFill" style="width: 0%;"></div>
-            </div>
+            <div class="strength-bar"><div class="strength-fill" id="strengthFill" style="width: 0%;"></div></div>
         </div>
 
         <!-- Requirements Checklist -->
         <div class="requirements-list">
             <div class="requirements-title">Password Requirements</div>
-            <div class="requirement-item">
-                <div class="requirement-check" id="req-length">✓</div>
-                <span>At least 12 characters</span>
-            </div>
-            <div class="requirement-item">
-                <div class="requirement-check" id="req-lowercase">✓</div>
-                <span>At least 1 lowercase letter</span>
-            </div>
-            <div class="requirement-item">
-                <div class="requirement-check" id="req-uppercase">✓</div>
-                <span>At least 1 uppercase letter</span>
-            </div>
-            <div class="requirement-item">
-                <div class="requirement-check" id="req-number">✓</div>
-                <span>At least 1 number</span>
-            </div>
-            <div class="requirement-item">
-                <div class="requirement-check" id="req-symbol">✓</div>
-                <span>At least 1 symbol</span>
-            </div>
-            <div class="requirement-item">
-                <div class="requirement-check" id="req-spaces">✓</div>
-                <span>No spaces</span>
-            </div>
-            <div class="requirement-item">
-                <div class="requirement-check" id="req-common">✓</div>
-                <span>Not a common password or pattern</span>
-            </div>
-            <div class="requirement-item">
-                <div class="requirement-check" id="req-personal">✓</div>
-                <span>Not your name or email</span>
-            </div>
-            <div class="requirement-item">
-                <div class="requirement-check" id="req-repeated">✓</div>
-                <span>No 4+ repeated characters</span>
-            </div>
+            <div class="requirement-item"><div class="requirement-check" id="req-length">✓</div><span>At least 12 characters</span></div>
+            <div class="requirement-item"><div class="requirement-check" id="req-lowercase">✓</div><span>At least 1 lowercase letter</span></div>
+            <div class="requirement-item"><div class="requirement-check" id="req-uppercase">✓</div><span>At least 1 uppercase letter</span></div>
+            <div class="requirement-item"><div class="requirement-check" id="req-number">✓</div><span>At least 1 number</span></div>
+            <div class="requirement-item"><div class="requirement-check" id="req-symbol">✓</div><span>At least 1 symbol</span></div>
+            <div class="requirement-item"><div class="requirement-check" id="req-spaces">✓</div><span>No spaces</span></div>
+            <div class="requirement-item"><div class="requirement-check" id="req-common">✓</div><span>Not a common password or pattern</span></div>
+            <div class="requirement-item"><div class="requirement-check" id="req-personal">✓</div><span>Not your name or email</span></div>
+            <div class="requirement-item"><div class="requirement-check" id="req-repeated">✓</div><span>No 4+ repeated characters</span></div>
         </div>
 
         <!-- Success Message -->
@@ -488,9 +227,7 @@
 
         <!-- Expandable Why Section -->
         <div class="expandable">
-            <button type="button" class="expandable-trigger" id="whyTrigger">
-                Why this matters ▼
-            </button>
+            <button type="button" class="expandable-trigger" id="whyTrigger">Why this matters ▼</button>
             <div class="expandable-content" id="whyContent">
                 <p><strong>12+ characters:</strong> Exponentially harder to crack with each additional character.</p>
                 <p><strong>Mixed case & symbols:</strong> Increases the possible character combinations dramatically.</p>
@@ -501,40 +238,9 @@
         </div>
     </div>
 
-    <!-- Toast for copy feedback -->
     <div class="toast" id="toast"></div>
 
     <script>
-        // =================================================================
-        // CONFIG
-        // =================================================================
-        const logoSrc = '/lovable-uploads/87ff2875-438d-47fc-b2b6-f9eb57a6a191.png'; // Replace with actual logo URL
-
-        // Common passwords and patterns (small denylist)
-        const commonPasswords = [
-            'password', '123456', 'qwerty', 'iloveyou', 'admin', 'welcome', 
-            'letmein', 'football', 'monkey', 'abc123', 'passw0rd!', 'password123',
-            '12345678', '123456789', 'qwerty123', 'password1', 'welcome123'
-        ];
-
-        const keyboardPatterns = [
-            'qwerty', 'qwertyui', 'asdf', 'asdfgh', 'zxcv', 'zxcvbn',
-            '1234', '12345', '123456', '1234567', '12345678', '123456789',
-            'abcd', 'abcde', 'abcdef', 'abcdefg'
-        ];
-
-        const tips = [
-            "Use a mix of unrelated words with numbers and symbols for memorable strength.",
-            "Consider using a passphrase like 'Coffee-Morning-2024!' instead of random characters.",
-            "Password managers can generate and store complex passwords safely.",
-            "Avoid using personal information like birthdays or pet names.",
-            "The longer your password, the stronger it becomes against attacks."
-        ];
-
-        // =================================================================
-        // DOM ELEMENTS
-        // =================================================================
-        const logoEl = document.getElementById('logo');
         const nameInput = document.getElementById('name');
         const emailInput = document.getElementById('email');
         const passwordInput = document.getElementById('password');
@@ -550,33 +256,20 @@
         const whyContent = document.getElementById('whyContent');
         const toast = document.getElementById('toast');
 
-        // =================================================================
-        // INITIALIZATION
-        // =================================================================
-        function init() {
-            logoEl.src = logoSrc;
-            
-            // Event listeners
-            passwordInput.addEventListener('input', validatePassword);
-            nameInput.addEventListener('input', validatePassword);
-            emailInput.addEventListener('input', validatePassword);
-            toggleBtn.addEventListener('click', togglePasswordVisibility);
-            generateBtn.addEventListener('click', generateStrongPassword);
-            copyBtn.addEventListener('click', copyPassword);
-            whyTrigger.addEventListener('click', toggleWhySection);
+        const commonPasswords = ['password','123456','qwerty','iloveyou','admin','welcome','letmein','football','monkey','abc123','passw0rd!','password123','12345678','123456789','qwerty123','password1','welcome123'];
+        const keyboardPatterns = ['qwerty','asdf','zxcv','1234','12345','123456','abcd','abcde','abcdef'];
+        const tips = [
+            "Use a mix of unrelated words with numbers and symbols.",
+            "Consider a passphrase like 'Coffee-Morning-2024!'",
+            "Password managers can generate and store passwords safely.",
+            "Avoid personal info like birthdays or pet names.",
+            "The longer your password, the stronger it becomes."
+        ];
 
-            // Initial validation
-            validatePassword();
-        }
-
-        // =================================================================
-        // VALIDATION LOGIC
-        // =================================================================
         function validatePassword() {
             const password = passwordInput.value;
             const name = nameInput.value.toLowerCase().trim();
             const email = emailInput.value.toLowerCase().trim();
-
             const requirements = {
                 length: password.length >= 12,
                 lowercase: /[a-z]/.test(password),
@@ -588,7 +281,6 @@
                 personal: !containsPersonalInfo(password, name, email),
                 repeated: !hasRepeatedChars(password)
             };
-
             updateChecklist(requirements);
             const score = calculateStrength(password, requirements);
             updateStrengthMeter(score);
@@ -598,222 +290,77 @@
         function updateChecklist(requirements) {
             Object.keys(requirements).forEach(req => {
                 const element = document.getElementById(`req-${req}`);
-                if (element) {
-                    element.classList.toggle('met', requirements[req]);
-                }
+                if (element) element.classList.toggle('met', requirements[req]);
             });
         }
 
-        function calculateStrength(password, requirements) {
+        function calculateStrength(password, r) {
             if (!password) return 0;
-
             let score = 0;
-            
-            // Length scoring (0-40 points)
             if (password.length >= 12) score += 15;
             if (password.length >= 16) score += 10;
             if (password.length >= 20) score += 15;
-
-            // Character diversity (0-30 points)
-            if (requirements.lowercase) score += 5;
-            if (requirements.uppercase) score += 5;
-            if (requirements.number) score += 5;
-            if (requirements.symbol) score += 15;
-
-            // Security checks (0-30 points)
-            if (requirements.spaces) score += 5;
-            if (requirements.common) score += 10;
-            if (requirements.personal) score += 5;
-            if (requirements.repeated) score += 10;
-
+            if (r.lowercase) score += 5;
+            if (r.uppercase) score += 5;
+            if (r.number) score += 5;
+            if (r.symbol) score += 15;
+            if (r.spaces) score += 5;
+            if (r.common) score += 10;
+            if (r.personal) score += 5;
+            if (r.repeated) score += 10;
             return Math.min(100, score);
         }
 
         function updateStrengthMeter(score) {
             let label, className;
-
-            if (score < 40) {
-                label = "Weak";
-                className = "strength-weak";
-            } else if (score < 60) {
-                label = "Fair";
-                className = "strength-fair";
-            } else if (score < 80) {
-                label = "Good";
-                className = "strength-good";
-            } else {
-                label = "Strong";
-                className = "strength-strong";
-            }
-
+            if (score < 40) { label="Weak"; className="strength-weak"; }
+            else if (score < 60) { label="Fair"; className="strength-fair"; }
+            else if (score < 80) { label="Good"; className="strength-good"; }
+            else { label="Strong"; className="strength-strong"; }
             strengthLabel.textContent = `Password Strength: ${label} (${score}/100)`;
             strengthFill.style.width = `${score}%`;
             strengthFill.className = `strength-fill ${className}`;
-
-            // Show/hide success message
-            if (score >= 80) {
-                successMessage.classList.add('show');
-                tipsSection.style.display = 'none';
-            } else {
-                successMessage.classList.remove('show');
-                tipsSection.style.display = 'block';
-            }
+            if (score >= 80) { successMessage.classList.add('show'); tipsSection.style.display='none'; }
+            else { successMessage.classList.remove('show'); tipsSection.style.display='block'; }
         }
 
-        function updateTips(score, requirements) {
+        function updateTips(score, r) {
             if (score >= 80) return;
-
             let tip = tips[Math.floor(Math.random() * tips.length)];
-            
-            // Provide specific guidance based on missing requirements
-            if (!requirements.length) {
-                tip = "Your password needs to be at least 12 characters long for better security.";
-            } else if (!requirements.symbol) {
-                tip = "Add a symbol like ! or % to make your password much stronger.";
-            } else if (!requirements.uppercase || !requirements.lowercase) {
-                tip = "Mix uppercase and lowercase letters to increase complexity.";
-            } else if (!requirements.number) {
-                tip = "Include at least one number to strengthen your password.";
-            }
-
+            if (!r.length) tip = "Make it at least 12 characters long.";
+            else if (!r.symbol) tip = "Add a symbol like ! or %.";
+            else if (!r.uppercase || !r.lowercase) tip = "Mix upper & lowercase letters.";
+            else if (!r.number) tip = "Include at least one number.";
             tipText.textContent = tip;
         }
 
-        // =================================================================
-        // VALIDATION HELPERS
-        // =================================================================
-        function isCommonOrPattern(password) {
-            const lower = password.toLowerCase();
-            
-            // Check common passwords
-            if (commonPasswords.includes(lower)) return true;
-            
-            // Check keyboard patterns
-            for (const pattern of keyboardPatterns) {
-                if (lower.includes(pattern)) return true;
-            }
-            
-            return false;
+        function isCommonOrPattern(p) { 
+            const l = p.toLowerCase(); 
+            if (commonPasswords.includes(l)) return true;
+            return keyboardPatterns.some(x=>l.includes(x));
         }
-
-        function containsPersonalInfo(password, name, email) {
-            if (!name && !email) return false;
-            
-            const lower = password.toLowerCase();
-            
-            if (name && name.length >= 3 && lower.includes(name)) return true;
-            if (email && email.length >= 3) {
-                const emailPart = email.split('@')[0];
-                if (emailPart.length >= 3 && lower.includes(emailPart)) return true;
-            }
-            
-            return false;
-        }
-
-        function hasRepeatedChars(password) {
-            for (let i = 0; i <= password.length - 4; i++) {
-                const char = password[i];
-                if (password.slice(i, i + 4) === char.repeat(4)) {
-                    return true;
-                }
+        function containsPersonalInfo(p, n, e) {
+            const l = p.toLowerCase();
+            if (n && n.length>=3 && l.includes(n)) return true;
+            if (e && e.length>=3) {
+                const ep = e.split('@')[0];
+                if (ep.length>=3 && l.includes(ep)) return true;
             }
             return false;
         }
+        function hasRepeatedChars(p) {
+            for (let i=0;i<=p.length-4;i++) if (p.slice(i,i+4)===p[i].repeat(4)) return true;
+            return false;
+        }
 
-        // =================================================================
-        // PASSWORD GENERATOR
-        // =================================================================
         function generateStrongPassword() {
-            const lowercase = 'abcdefghijkmnopqrstuvwxyz'; // Removed confusing chars
-            const uppercase = 'ABCDEFGHJKLMNPQRSTUVWXYZ'; // Removed confusing chars
-            const numbers = '23456789'; // Removed 0 and 1
-            const symbols = '!@#$%^&*()_+-=[]{}|;:,.<>?'; // Removed confusing quotes
-
-            const allChars = lowercase + uppercase + numbers + symbols;
-            const length = 16 + Math.floor(Math.random() * 5); // 16-20 chars
-
-            let password = '';
-            
-            // Ensure at least one of each type
-            password += getRandomChar(lowercase);
-            password += getRandomChar(uppercase);
-            password += getRandomChar(numbers);
-            password += getRandomChar(symbols);
-
-            // Fill the rest randomly
-            for (let i = 4; i < length; i++) {
-                password += getRandomChar(allChars);
-            }
-
-            // Shuffle the password
-            password = shuffleString(password);
-
-            // Make sure it's not common or pattern (very unlikely but check anyway)
-            if (isCommonOrPattern(password)) {
-                return generateStrongPassword(); // Recursively try again
-            }
-
-            passwordInput.value = password;
-            validatePassword();
-        }
-
-        function getRandomChar(chars) {
-            return chars[Math.floor(Math.random() * chars.length)];
-        }
-
-        function shuffleString(str) {
-            return str.split('').sort(() => Math.random() - 0.5).join('');
-        }
-
-        // =================================================================
-        // UI INTERACTIONS
-        // =================================================================
-        function togglePasswordVisibility() {
-            const type = passwordInput.type === 'password' ? 'text' : 'password';
-            passwordInput.type = type;
-            toggleBtn.textContent = type === 'password' ? 'Show' : 'Hide';
-        }
-
-        function copyPassword() {
-            const password = passwordInput.value;
-            if (!password) {
-                showToast("No password to copy");
-                return;
-            }
-
-            navigator.clipboard.writeText(password).then(() => {
-                showToast("Copied");
-            }).catch(() => {
-                // Fallback for older browsers
-                passwordInput.select();
-                passwordInput.setSelectionRange(0, 99999);
-                try {
-                    document.execCommand('copy');
-                    showToast("Copied");
-                } catch {
-                    showToast("Couldn't copy—select and press Ctrl/Cmd+C");
-                }
-            });
-        }
-
-        function toggleWhySection() {
-            const isOpen = whyContent.classList.contains('show');
-            whyContent.classList.toggle('show');
-            whyTrigger.textContent = isOpen ? 'Why this matters ▼' : 'Why this matters ▲';
-        }
-
-        function showToast(message) {
-            toast.textContent = message;
-            toast.classList.add('show');
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 3000);
-        }
-
-        // =================================================================
-        // INITIALIZATION
-        // =================================================================
-        document.addEventListener('DOMContentLoaded', init);
-    </script>
-</body>
-</html>
+            const lowercase = 'abcdefghijkmnopqrstuvwxyz';
+            const uppercase = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
+            const numbers = '23456789';
+            const symbols = '!@#$%^&*()_+-=[]{}|;:,.<>?';
+            const all = lowercase+uppercase+numbers+symbols;
+            const length = 16+Math.floor(Math.random()*5);
+            let p = getRandomChar(lowercase)+getRandomChar(uppercase)+getRandomChar(numbers)+getRandomChar(symbols);
+            for (let i=4;i<length;i++) p+=getRandomChar(all);
+            p = shuffle(p);
+            if (isCommonOrPattern(p)) return generateStrongPassword
